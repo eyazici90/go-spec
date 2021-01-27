@@ -43,7 +43,7 @@ func main() {
 		name: "Emre",
 	}
 
-	var chains []spec.Spec
+	var chains []spec.Specifier
 	chains = append(chains, spec.And(spec1, spec2))
 	chains = append(chains, spec.And(spec1).AndNot(spec2))
 	chains = append(chains, spec.Or(spec1, spec2))

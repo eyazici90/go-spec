@@ -1,18 +1,18 @@
 package spec
 
-type Spec interface {
+type Specifier interface {
 	Eval() func(i interface{}) bool
 }
 
 type (
 	AndSpec struct {
-		ss []Spec
+		ss []Specifier
 	}
 	OrSpec struct {
-		ss []Spec
+		ss []Specifier
 	}
 	NotSpec struct {
-		s Spec
+		s Specifier
 	}
 )
 
@@ -44,51 +44,51 @@ func (n NotSpec) Eval() func(i interface{}) bool {
 	}
 }
 
-func (a AndSpec) And(s Spec) AndSpec {
+func (a AndSpec) And(s Specifier) AndSpec {
 	return And(a, s)
 }
 
-func (a AndSpec) AndNot(s Spec) AndSpec {
+func (a AndSpec) AndNot(s Specifier) AndSpec {
 	return And(a, Not(s))
 }
 
-func (a AndSpec) Or(s Spec) OrSpec {
+func (a AndSpec) Or(s Specifier) OrSpec {
 	return Or(a, s)
 }
 
-func (n NotSpec) And(s Spec) AndSpec {
+func (n NotSpec) And(s Specifier) AndSpec {
 	return And(n, s)
 }
 
-func (n NotSpec) AndNot(s Spec) AndSpec {
+func (n NotSpec) AndNot(s Specifier) AndSpec {
 	return And(n, Not(s))
 }
 
-func (o OrSpec) And(s Spec) AndSpec {
+func (o OrSpec) And(s Specifier) AndSpec {
 	return And(o, s)
 }
 
-func (o OrSpec) AndNot(s Spec) AndSpec {
+func (o OrSpec) AndNot(s Specifier) AndSpec {
 	return And(o, Not(s))
 }
 
-func (o OrSpec) Or(s Spec) OrSpec {
+func (o OrSpec) Or(s Specifier) OrSpec {
 	return Or(o, s)
 }
 
-func And(ss ...Spec) AndSpec {
+func And(ss ...Specifier) AndSpec {
 	return AndSpec{
 		ss: ss,
 	}
 }
 
-func Or(ss ...Spec) OrSpec {
+func Or(ss ...Specifier) OrSpec {
 	return OrSpec{
 		ss: ss,
 	}
 }
 
-func Not(s Spec) NotSpec {
+func Not(s Specifier) NotSpec {
 	return NotSpec{
 		s: s,
 	}
